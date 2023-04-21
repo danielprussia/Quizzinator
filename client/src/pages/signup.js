@@ -7,7 +7,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 
 
 
@@ -17,7 +16,7 @@ const Signup = () => {
         email: '',
         password: '',
     });
-    const [addUser, { error, data }] = useMutation(ADD_USER);
+    const [addUser, { error }] = useMutation(ADD_USER);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -46,26 +45,7 @@ const Signup = () => {
 
     return (
         <Grid>
-            <Grid display='flex'>
 
-                <Typography
-                    variant="h4"
-                    noWrap
-                    component="a"
-                    align='center'
-                    sx={{
-                        mr: 2,
-                        flexGrow: 1,
-                        fontFamily: 'Tillana',
-                        weight: '700',
-                        color: 'inherit',
-                        textDecoration: 'none',
-                    }}
-                >
-                    <HelpOutlineRoundedIcon sx={{ mr: 1 }} />
-                    Quizzinator
-                </Typography>
-            </Grid>
             <Grid>
                 <form autoComplete="off" onSubmit={handleFormSubmit}>
                     <h2>Signup</h2>

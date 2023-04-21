@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FormControl, MenuItem, InputLabel, Select, Button, List, ListItem, ListItemText } from '@mui/material';
+import { FormControl, MenuItem, InputLabel, Select, Button, List, ListItem } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { getRandom } from "../utils/api";
 import { ADD_QUIZ } from '../utils/mutations';
@@ -12,7 +12,7 @@ export default function Study() {
   const [answered, setAnswered] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [questions, setQuestions] = useState([]);
-  const [saveQuiz, { error }] = useMutation(ADD_QUIZ);
+  const [saveQuiz] = useMutation(ADD_QUIZ);
   const navigate = useNavigate();
 
   const shuffle = (array) => {
@@ -80,7 +80,13 @@ export default function Study() {
   };
 
   const handleScoreSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
+
+    if (answered === 0) {
+      alert('Please answer at least one question before submitting your score.');
+      return;
+    }
+
     try {
       const { data } = await saveQuiz({
         variables: { score: correct, total: answered }
@@ -89,7 +95,7 @@ export default function Study() {
       console.log('total', answered)
       console.log('QUIZ')
       console.log('DATA', data)
-      navigate("/leaderboard")
+      navigate("/Leaderboard")
     } catch (error) {
       console.error(error)
     }
@@ -97,6 +103,7 @@ export default function Study() {
 
   return (
     <Grid>
+
       <h1>Study Page</h1>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Category</InputLabel>
@@ -111,7 +118,7 @@ export default function Study() {
           <MenuItem value={'geography'}>Geography</MenuItem>
           <MenuItem value={'music'}>Music</MenuItem>
           <MenuItem value={'arts_and_literature'}>Arts & Literature</MenuItem>
-          <MenuItem value={'film_an_tv'}>Film & TV</MenuItem>
+          <MenuItem value={'film_and_tv'}>Film & TV</MenuItem>
           <MenuItem value={'food_and_drink'}>Food & Drink</MenuItem>
           <MenuItem value={'general_knowledge'}>General Knowledge</MenuItem>
           <MenuItem value={'society_and_culture'}>Society & Culture</MenuItem>
